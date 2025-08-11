@@ -54,6 +54,22 @@ def dashboard_data():
         'expiry_date': p.expiry_date
     } for p in recent_products]
 
+    # Calculate monthly sales (mock data for now)
+    monthly_sales = sum(p.price * p.stock_level for p in all_products) * 0.1  # Rough estimate
+
+    return jsonify({
+        'shopName': g.business.shop_name,
+        'userName': g.user.full_name if hasattr(g.user, 'full_name') else g.user.username,
+        'userBusinessType': g.business.business_type or 'General',
+        'totalProducts': total_products,
+        'monthlySales': monthly_sales,
+        'totalBrands': total_brands,
+        'lowStockItems': low_stock_items,
+        'recentProducts': recent_products_json,
+        'brands': brands_list,
+        'categories': categories_list
+    })ucts]
+
     # Return all data
     data = {
         'shopName': g.business.shop_name,

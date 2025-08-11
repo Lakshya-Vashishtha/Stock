@@ -21,5 +21,9 @@ class User(db.Model):
         print(password)
         return check_password_hash(self.password_hash, password)
 
+    @property
+    def username(self):
+        return self.full_name or f"User{self.id}"
+
     def __repr__(self):
-        return f"<User {self.email}>"
+        return f"<User {self.full_name}>"
