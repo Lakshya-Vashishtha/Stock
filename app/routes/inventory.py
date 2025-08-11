@@ -42,6 +42,15 @@ def view_dashboard():
     # Fetch all products for the logged-in business
     products = Product.query.filter_by(business_id=g.business.id).all()
     return render_template('dashboard.html', products=products)
+def view_dashboard():
+    # Check if business exists (additional safety check)
+    if not g.business:
+        flash('Business information not found. Please contact support.', 'error')
+        return redirect(url_for('auth.login'))
+    
+    # Fetch all products for the logged-in business
+    products = Product.query.filter_by(business_id=g.business.id).all()
+    return render_template('dashboard.html', products=products)
 
 @inventory_bp.route('/products')
 @login_required

@@ -1,3 +1,4 @@
+
 # app/models/User.py
 from app.extensions import db
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -8,9 +9,10 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
+    full_name = db.Column(db.String(100), nullable=True)
 
     # One-to-one relationship with Business
-    # A user belongs to one business, and a business has one user
+    # A user belongs to one business, and a business has one business
     business_id = db.Column(db.Integer, db.ForeignKey('businesses.id'), unique=True, nullable=True)
 
     def set_password(self, password):
@@ -26,4 +28,4 @@ class User(db.Model):
         return self.full_name or f"User{self.id}"
 
     def __repr__(self):
-        return f"<User {self.full_name}>"
+        return f"<User {self.full_name or self.email}>"
