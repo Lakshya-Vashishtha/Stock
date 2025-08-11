@@ -1,0 +1,177 @@
+{# app/templates/dashboard.html #}
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block head %}
+{{ super() }}
+<!-- Font Awesome for icons -->
+<!-- TEMPORARY: Remove integrity and crossorigin for local dev -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<style>
+    /* Custom styles for dashboard cards inspired by modern dashboards */
+    .card .border-left-primary { border-left: .25rem solid #4e73df!important; }
+    .card .border-left-success { border-left: .25rem solid #1cc88a!important; }
+    .card .border-left-info { border-left: .25rem solid #36b9cc!important; }
+    .card .border-left-warning { border-left: .25rem solid #f6c23e!important; }
+    .text-xs { font-size: .8rem; }
+    .text-gray-800 { color: #5a5c69!important; }
+    .text-secondary { color: #858796!important; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <div>
+            <h1 class="h2">Dashboard</h1>
+            <p class="text-muted mb-0">
+                <strong id="shopName">Loading...</strong> (<span id="userBusinessType">Loading...</span>)
+            </p>
+        </div>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="d-flex align-items-center">
+                <span id="userName" class="me-2 fw-bold">Loading...</span>
+                <img id="userAvatar" class="rounded-circle" src="https://ui-avatars.com/api/?name=L&background=random" alt="User Avatar" width="40" height="40">
+                <a id="logoutBtn" href="#" class="btn btn-sm btn-outline-danger ms-3">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stat Cards -->
+    <div class="row">
+        <!-- Total Products Card -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row g-0 align-items-center">
+                        <div class="col">
+                            <div class="text-xs fw-bold text-primary text-uppercase mb-1">Total Products</div>
+                            <div id="totalProducts" class="h5 mb-0 fw-bold text-gray-800">Loading...</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-box fa-2x text-secondary"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Monthly Sales Card -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row g-0 align-items-center">
+                        <div class="col">
+                            <div class="text-xs fw-bold text-success text-uppercase mb-1">Monthly Sales</div>
+                            <div id="monthlySales" class="h5 mb-0 fw-bold text-gray-800">Loading...</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-rupee-sign fa-2x text-secondary"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Brands Card -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row g-0 align-items-center">
+                        <div class="col">
+                            <div class="text-xs fw-bold text-info text-uppercase mb-1">Total Brands</div>
+                            <div id="totalBrands" class="h5 mb-0 fw-bold text-gray-800">Loading...</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-tags fa-2x text-secondary"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Low Stock Items Card -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row g-0 align-items-center">
+                        <div class="col">
+                            <div class="text-xs fw-bold text-warning text-uppercase mb-1">Low Stock Items</div>
+                            <div id="lowStockItems" class="h5 mb-0 fw-bold text-gray-800">Loading...</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-exclamation-triangle fa-2x text-secondary"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Row -->
+    <div class="row">
+        <!-- Recent Products Table -->
+        <div class="col-lg-8 mb-4">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 fw-bold text-primary">Recent Products</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                                                <table class="table table-hover" width="100%" cellspacing="0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Brand</th>
+                                    <th>Category</th>
+                                    <th>Stock</th>
+                                    <th>Price</th>
+                                    <th>Expiry</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentProducts">
+                                <tr><td colspan="6" class="text-center">Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Products / Monthly Sales Chart -->
+        <div class="col-lg-4 mb-4">
+            <!-- Top Products -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 fw-bold text-info">Top Products</h6>
+                </div>
+                <div class="card-body">
+                    <ul id="topProducts" class="list-group">
+                        <li class="list-group-item text-center">Loading...</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Sales Chart -->
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 fw-bold text-success">Monthly Sales Overview</h6>
+                </div>
+                <div class="card-body">
+                    <canvas id="salesChart" width="100%" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

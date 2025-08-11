@@ -1,0 +1,55 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Stock System{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-ENjdO4Dr2bkBIFxQpeoA6DQaY64CkF7NFN91bzZd6E5FjqEV12gN91CdFAF6VbC/" crossorigin="anonymous">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+
+    {% block head %}{% endblock %}
+</head>
+<body class="bg-light d-flex flex-column min-vh-100">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-gradient-to-r from-blue-800 to-indigo-900 shadow-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand font-extrabold text-2xl tracking-wide" href="{{ url_for('auth.index') }}">
+                <span class="text-blue-300">Stock</span> <span class="text-white">Manager</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    <div class="container mt-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Optional Footer (Fixed to bottom if page content is short) -->
+    <footer class="mt-auto bg-dark text-white text-center py-3">
+        &copy; {{ current_year | default(2025) }} Stock Manager. All rights reserved.
+    </footer>
+
+    <!-- Bootstrap 5 Bundle JS (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-qG9BbzGHj6Qew1LBPCUL4zI/NSMH0m+MQ25UQj8h3FY1d9C0r9Ev5tFZfx4Apt3j"
+            crossorigin="anonymous"></script>
+</body>
+</html>

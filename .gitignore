@@ -1,0 +1,72 @@
+# ---------------------------
+# Python cache & compiled files
+# ---------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pdb
+
+# ---------------------------
+# Virtual environments
+# ---------------------------
+venv/
+env/
+.venv/
+.env/
+
+# ---------------------------
+# Environment variables / secrets
+# ---------------------------
+*.env
+.env.*
+secrets.json
+credentials.json
+
+# ---------------------------
+# IDE / Editor settings
+# ---------------------------
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ---------------------------
+# Logs & temp files
+# ---------------------------
+*.log
+*.tmp
+*.bak
+*.swp
+.DS_Store
+Thumbs.db
+
+# ---------------------------
+# Build / distribution
+# ---------------------------
+build/
+dist/
+*.egg-info/
+.eggs/
+MANIFEST
+
+# ---------------------------
+# Jupyter Notebook checkpoints
+# ---------------------------
+.ipynb_checkpoints/
+
+# ---------------------------
+# Test & coverage
+# ---------------------------
+htmlcov/
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+
+# ---------------------------
+# SQLite / local databases
+# ---------------------------
+*.db
+*.sqlite3
